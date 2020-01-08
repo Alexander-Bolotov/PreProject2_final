@@ -13,9 +13,11 @@ public interface UserDAO {
 
     boolean idIsExist(long id);
 
-    void addUser(User user);
+    boolean addUser(User user);
 
     void deleteUserByName(String name);
+
+    void deleteUserById(long id);
 
     void editeUser(User user);
 

@@ -1,8 +1,8 @@
 package src.main.servlet;
 
-import src.main.model.User;
-import src.main.service.UserService;
-import src.main.service.UserServiceHebernate;
+
+import src.main.service.Service;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,14 +15,14 @@ import java.io.IOException;
 public class DeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserServiceHebernate userServiceHebernate = UserServiceHebernate.getInstance();
+        Service service = Service.getInstance();
         Long id = Long.parseLong(req.getParameter("id"));
         if (id==null) {
             resp.setContentType("text/html;charset=utf-8");
             resp.getWriter().println("Не введен пользователь");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {
-            userServiceHebernate.deleteUserById(id);
+            service.deleteUserById(id);
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
     }

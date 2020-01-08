@@ -66,14 +66,15 @@ public class UserHibernateDAO implements UserDAO {
     }
 
     @Override
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         Transaction transaction = session.beginTransaction();
         try {
             session.save(user);
             transaction.commit();
+            return true;
         } catch (RuntimeException e) {
-            transaction.rollback();
-            throw e;
+//            transaction.rollback();
+            return false;
         } finally {
             session.close();
         }

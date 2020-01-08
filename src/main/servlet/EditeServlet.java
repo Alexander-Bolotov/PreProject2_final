@@ -1,9 +1,7 @@
 package src.main.servlet;
 
 import src.main.model.User;
-import src.main.service.UserService;
-import src.main.service.UserServiceHebernate;
-
+import src.main.service.Service;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +13,9 @@ import java.io.IOException;
 public class EditeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserServiceHebernate userServiceHebernate = UserServiceHebernate.getInstance();
+//        UserServiceHebernate userServiceHebernate = UserServiceHebernate.getInstance();
+        Service service = Service.getInstance();
+
         Long id = Long.parseLong(req.getParameter("id"));
         String name = req.getParameter("name");
         String password = req.getParameter("password");
@@ -26,7 +26,7 @@ public class EditeServlet extends HttpServlet {
             resp.getWriter().println("Не введен пароль или логин или ID");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {
-            userServiceHebernate.editeUser(user);
+            service.editeUser(user);
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
     }

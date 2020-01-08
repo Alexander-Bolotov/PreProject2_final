@@ -1,8 +1,10 @@
-<%@ page import="src.main.service.UserServiceHebernate" %>
+<%@ page import="src.main.service.Service" %>
 <%
-    UserServiceHebernate userServiceHebernate = UserServiceHebernate.getInstance();
+    Service service = Service.getInstance();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <html>
 <body>
 <h2>Проект 2 предпроектной подготовки</h2>
@@ -36,7 +38,7 @@
 </form>
 <hr/>
 <%--<p> Пользователи <%= userService.getAllUsers().toString() %>--%>
-<p> Пользователи <%= userServiceHebernate.getAllUsers().toString() %>
+<p> Пользователи <%= service.getAllUsers().toString() %>
 
 </p>
 </body>

@@ -2,7 +2,6 @@ package src.main.dao;
 
 import src.main.model.User;
 
-import javax.tools.StandardJavaFileManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +56,16 @@ public class UserJdbcDAO implements UserDAO{
                 .anyMatch(x -> x.equals(id));
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name, password) VALUES (?, ?)")) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
+            return  true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void deleteUserByName(String name) {
@@ -76,16 +77,26 @@ public class UserJdbcDAO implements UserDAO{
         }
     }
 
-    public void editeUser(User user) {
+    @Override
+    public void deleteUserById(long id) {
+        try(PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id =?")) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-//        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name=?, password=? where id LIKE ?")) {
-//            preparedStatement.setString(1, name);
-//            preparedStatement.setString(2, password);
-//            preparedStatement.setLong(3, id);
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    }
+
+    public void editeUser(User user) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name=?, password=? where id LIKE ?")) {
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setLong(3, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public User getUserById(Long id) {
